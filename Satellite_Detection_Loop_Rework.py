@@ -423,7 +423,7 @@ for path in os.listdir(file_path):
         test_satellite_obj = satellite_objects[0]
 
         satellite_pos = test_satellite_obj.corrected_positions  # undistort the satellite positions (start and end point)
-        img_coordinates_start, img_coordinates_end = satellite_pos[0], satellite_pos[1]
+        img_coordinates_start, img_coordinates_end = np.array(satellite_pos[0]), np.array(satellite_pos[1])
 
         # This is calculating the satellites position in sky (horizontal) coordinates from the image coordinates.
         satellite_sky_coordinates = test_satellite_obj.positioning(star_img_objects, zenith_pos,
