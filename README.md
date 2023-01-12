@@ -50,7 +50,7 @@ Objects:
     probably be possible to merge the star_calc_2 class and Star_Img class. 
     
 Database:
-  - 
+
    
   
     
