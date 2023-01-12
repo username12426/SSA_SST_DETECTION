@@ -253,6 +253,31 @@ satellite_height = optimize.bisect(velocity_bisect, 1, 20000000)
 print(f'satellite_height: {satellite_height}')
 
 
+def velocity_bisect(expected_height):
+
+    # when we correct the satellite trace it is as if the satellite would be at its closest point to us
+    # (in the foot_point) so we need to calculate the height of the satellite using this altitude.
+    satellite_vector_distance = expected_height / sin(radians(foot_point_elevation))
+
+    # this calculates how far two points are apart if I know the distance to them and the angle between them
+    satellite_calc_length = (satellite_vector_distance * sin(radians(perspective_correction / 2))) * 2
+
+    # we now calculate how fast the satellite would be with the guessed height, trace it leaves in the sky
+    # alt altitude (angle) it passes through
+    satellite_calc_velocity = satellite_calc_length / exposure_time
+
+    # This is a different velocity, the velocity a satellite would need to have if it were to fly at that height
+    satellite_orbit_velocity = math.sqrt((grav_const * earth_mass) / (rad_earth + (expected_height)))
+
+    # if both of these velocities are the same we know we have found the height the satellite flies at.
+    return satellite_calc_velocity - satellite_orbit_velocity
+
+
+# This can be done using taylor approximation as well
+satellite_height = optimize.bisect(velocity_bisect, 1, 20000000)
+print(f'satellite_height: {satellite_height}')
+
+
 ax.scatter(observer_position[0], observer_position[1], observer_position[2], s=5)
 ax.set_zlabel('h')
 set_axes_equal(ax)
