@@ -218,6 +218,9 @@ print(f'tilted_elevation: {tilted_elevation}')
 perspective_correction = trace_angle_delta / (0.5 * cos(radians(2 * tilted_elevation)) + 0.5)
 print(f'perspective correction: {perspective_correction}')
 
+# There are two bisection functions now, the fist one is doing the same but takes different parameters
+# The second one is firstly easier and is 1:1 the velocity bisect that is used in the 
+# Satellite Detection code. Ignore the first one.
 
 def velocity_bisect(expected_height):
     # convert startpoint to azimuth and elevation
@@ -257,6 +260,10 @@ def velocity_bisect(expected_height):
 
     # when we correct the satellite trace it is as if the satellite would be at its closest point to us
     # (in the foot_point) so we need to calculate the height of the satellite using this altitude.
+    
+    # This first part calculates how far the satellite would be away if it were to fly at a given height.
+    # (simple trigeometry) The "expected height" is ajusted by the optimize.bisect method to fullfill
+    # the condition in the return statement
     satellite_vector_distance = expected_height / sin(radians(foot_point_elevation))
 
     # this calculates how far two points are apart if I know the distance to them and the angle between them
