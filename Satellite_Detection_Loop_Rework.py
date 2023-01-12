@@ -523,7 +523,7 @@ for path in os.listdir(file_path):
 
         def velocity_bisect(expected_height):
 
-            satellite_vector_length = expected_height / sin(radians(sky_trace_center_point[0][1]))      # this was just a test but i think its correct like this
+            satellite_vector_length = expected_height / sin(radians(sky_foot_point[1]))      # this was just a test but i think its correct like this
             # satellite_vector_length = expected_height / sin(radians(satellite_center_declination))
 
             satellite_calc_distance = (satellite_vector_length * sin(radians(perspective_correction / 2))) * 2
