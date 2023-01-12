@@ -3,7 +3,7 @@ Alormar Camera Analysis code for satellite tracking.
 
 There are some important things to note about the files of this Project.
 
-Code:
+Main Code:
 There are two main scripts, one for the calibration and one for the actual satellite detection:
 
   - The calibration code was intendet to be convertet to c code and run as an windows executable
@@ -35,7 +35,7 @@ There are two main scripts, one for the calibration and one for the actual satel
     the human eye, but the filter is so sensitive it will be very prone to error due to changing light cosditions
     and it will probably not work on different cameras (not tested)
    
-Objects:
+  Objects:
     
   - There are a view objects, they mainly store data but handle some functions as well.
   
@@ -49,7 +49,20 @@ Objects:
     is close to the satellite, its hozizontal coordinates will be calculated from the database. I would
     probably be possible to merge the star_calc_2 class and Star_Img class. 
     
-Database:
+  Database:
+  - There are two types of databases i reference. A star and a satellite database. The star database has approx 120.000 stars
+    that can be used to compare to stars seen in the image.
+    
+  - The satellite Database was jused to make the development easier and to comapre and save results
+    from the calculations. THis database is a text file and stores the satellites seen in the image as
+    a line. If a satellite is similar to one in the database it will be appended and identified as the same.
+    
+    
+ Report:
+  - The report is the formal summary of the project.
+  
+  - Development report: This is a file, were I documented the process of developing the algorithims and the code in more
+    detail.
 
    
   
