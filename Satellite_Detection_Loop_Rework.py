@@ -520,18 +520,23 @@ for path in os.listdir(file_path):
             y = r * sin(radians(phi))
             return x, y, z
 
-
         def velocity_bisect(expected_height):
 
-            satellite_vector_length = expected_height / sin(radians(sky_foot_point[1]))      # this was just a test but i think its correct like this
-            # satellite_vector_length = expected_height / sin(radians(satellite_center_declination))
+            # when we correct the satellite trace it is as if the satellite would be at its closest point to us
+            # (in the foot_point) so we need to calculate the height of the satellite using this altitude.
+            satellite_vector_distance = expected_height / sin(radians(sky_foot_point[1]))
 
-            satellite_calc_distance = (satellite_vector_length * sin(radians(perspective_correction / 2))) * 2
+            # this calculates how far two points are apart if I know the distance to them and the angle between them
+            satellite_calc_length = (satellite_vector_distance * sin(radians(perspective_correction / 2))) * 2
 
-            satellite_calc_velocity = satellite_calc_distance / exposure_time
+            # we now calculate how fast the satellite would be with the guessed height, trace it leaves in the sky
+            # alt altitude (angle) it passes through
+            satellite_calc_velocity = satellite_calc_length / exposure_time
 
+            # This is a different velocity, the velocity a satellite would need to have if it were to fly at that height
             satellite_orbit_velocity = math.sqrt((grav_const * earth_mass) / (rad_earth + (expected_height)))
 
+            # if both of these velocities are the same we know we have found the height the satellite flies at.
             return satellite_calc_velocity - satellite_orbit_velocity
 
 
