@@ -32,5 +32,25 @@ There are two main scripts, one for the calibration and one for the actual satel
     
   - Filter Tests Code is partly implemented in the Detection Code. The Filter test was a try what would
     be possible to detect in an image. In its current setup can find satellites that are not visible to
-    the human eye. 
+    the human eye, but the filter is so sensitive it will be very prone to error due to changing light cosditions
+    and it will probably not work on different cameras (not tested)
+   
+Objects:
+    
+  - There are a view objects, they mainly store data but handle some functions as well.
+  
+  - Satellite_oop Stores all satellites from one iteration. The main functionality is the positioning of the satellite
+    using close stars from the Star Class.
+    
+  - Star_Img_oop (star Class) stores all image detcted stars ans translates thier positions to horizontal coordinates. If a star is 
+    successfully intentified this info will be stored inside the class, as well as its magnitude and size in the image
+    
+  - Star_calc_2_oop is the class that handles all calculated stars e.g. stars from the database. If a star from the database
+    is close to the satellite, its hozizontal coordinates will be calculated from the database. I would
+    probably be possible to merge the star_calc_2 class and Star_Img class. 
+    
+Database:
+  - 
+   
+  
     
