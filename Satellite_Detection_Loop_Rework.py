@@ -67,7 +67,7 @@ def print_time_delta(last_time):
 file_path = r'C:\Users\Admin\Desktop\Test_Images_Phone_12.7.22'
 position = 52.35933, 13.56694   # in decimal degrees
 height = 70 # height above ground
-zenith_pos = 2181, 1492     # zenith in the image (calibration)
+zenith_pos = 2181, 1492   # zenith in the image (calibration)
 north_offset = 245.32713262988753   # from calibration
 distortion_parameters = -0.0234756793128147, 3.920912444488422e-05, 1.6978300496190803e-08, 0.06685635181503462 # from calibration
 rescale_setting = 0.3   # size of the output image (so the plots fit your screen)
@@ -405,7 +405,7 @@ for path in os.listdir(file_path):
             return degrees(np.arccos(np.clip(np.dot(v1_u, v2_u), -1.0, 1.0)))
 
 
-        def translate_angles_vector(theta, phi):  # theta = right assertion, phi = declination
+        def translate_angles_vector(theta, phi):  # theta = right assertion (azimuth), phi = declination (elevation)
             # this function takes normal declination -90 degrees
             x = cos(radians(theta)) * sin(radians(phi))
             y = sin(radians(theta)) * sin(radians(phi))
@@ -461,40 +461,50 @@ for path in os.listdir(file_path):
 
         path_foot_point = get_foot(zenith_pos, img_coordinates_start, img_coordinates_end)
 
+        # These are just values for the plot
         zero_angle_vector_ground = np.subtract(path_foot_point, zenith_pos)
         img_trace_center = img_coordinates_start + (satellite_vector * 0.5)
         img_trace_center_vector = np.subtract(img_trace_center, zenith_pos)
-        horizontal_declination = angle_delta(zero_angle_vector_ground, img_trace_center_vector) % 180
-        if horizontal_declination > 90:
-            horizontal_declination = 90 - (horizontal_declination - 90)
-        print(f'horizontal_declination: {horizontal_declination}')
 
-        # calculation of tilted declination
+        # This horizontal elevation is not important for the calculations it is only used in the plot
+        horizontal_elevation = angle_delta(zero_angle_vector_ground, img_trace_center_vector) % 180
+        if horizontal_elevation > 90:
+            horizontal_elevation = 90 - (horizontal_elevation - 90)
+        print(f'horizontal_elevation: {horizontal_elevation}')
+
+        # used to calculate angle between the fot point and the middle point of the satellite
         sky_foot_point = test_satellite_obj.positioning(star_img_objects, zenith_pos,
                                                         arcseconds_per_px=arcsec,
                                                         dist_thresh=satellite_positioning_thresh,
                                                         manual_positions=[path_foot_point,
                                                                           path_foot_point])[0]
 
+        # this may be a bit useless, I could calculate the angle between the two using the
+        # azimuth as well...
         sky_foot_point_vector = translate_angles_vector(sky_foot_point[0],
                                                         90 - (sky_foot_point[1]))
 
+        # used to calculate angle between the fot point and the middle point of the satellite
         sky_trace_center_point = test_satellite_obj.positioning(star_img_objects, zenith_pos,
                                                                 arcseconds_per_px=arcsec,
                                                                 dist_thresh=satellite_positioning_thresh,
                                                                 manual_positions=[img_trace_center,
                                                                                   img_trace_center])
 
-        declination_list.append(horizontal_declination)
-
+        # this may be a bit useless, I could calculate the angle between the two using the
+        # azimuth as well...
         sky_trace_center_vector = translate_angles_vector(sky_trace_center_point[0][0],
                                                           90 - (sky_trace_center_point[0][1]))
 
-        tilted_declination = angle_delta(sky_foot_point_vector, sky_trace_center_vector)
-        print(f'tilted_declination: {tilted_declination}')
+        # only used in the plot not important in calculations
+        declination_list.append(horizontal_elevation)
+
+        # Angle between the line to the satellites center and line to the foot point
+        tilted_elevation = angle_delta(sky_foot_point_vector, sky_trace_center_vector)
+        print(f'tilted_elevation: {tilted_elevation}')
 
         # / perspective correction calculation /
-        perspective_correction = trace_angle_delta / (0.5 * cos(radians(2 * tilted_declination)) + 0.5)     # both 0.5 values were tested by try and error
+        perspective_correction = trace_angle_delta / (0.5 * cos(radians(2 * tilted_elevation)) + 0.5)     # both 0.5 values were tested by try and error
         calc_trace.append(perspective_correction)
         print(f'perspective correction: {perspective_correction}')
 
@@ -519,6 +529,7 @@ for path in os.listdir(file_path):
             z = r * sin(radians(theta)) * cos(radians(phi))
             y = r * sin(radians(phi))
             return x, y, z
+
 
         def velocity_bisect(expected_height):
 
