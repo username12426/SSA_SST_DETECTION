@@ -32,7 +32,7 @@ There are two main scripts, one for the calibration and one for the actual satel
     
   - Filter Tests Code is partly implemented in the Detection Code. The Filter test was a try what would
     be possible to detect in an image. In its current setup can find satellites that are not visible to
-    the human eye, but the filter is so sensitive it will be very prone to error due to changing light cosditions
+    the human eye, but the filter is so sensitive it will be very prone to error due to changing light conditions
     and it will probably not work on different cameras (not tested)
    
   Objects:
@@ -53,8 +53,8 @@ There are two main scripts, one for the calibration and one for the actual satel
   - There are two types of databases i reference. A star and a satellite database. The star database has approx 120.000 stars
     that can be used to compare to stars seen in the image.
     
-  - The satellite Database was jused to make the development easier and to comapre and save results
-    from the calculations. THis database is a text file and stores the satellites seen in the image as
+  - The satellite Database was used to make the development easier and to comapre and save results
+    from the calculations. This database is a text file and stores the satellites seen in the image as
     a line. If a satellite is similar to one in the database it will be appended and identified as the same.
     
     
