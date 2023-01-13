@@ -27,7 +27,7 @@ There are two main scripts, one for the calibration and one for the actual satel
     calibration of the image based on the motor positions.
     
   - Perspective Correction Code is 1:1 implemented in the Detection code, The correction code is 
-    the test of this algorithom and was used to try different methods of hoy you can extract 
+    the test of this algorithom and was used to try different methods of how you can extract 
     the satellites speed and height from a 2d image.
     
   - Filter Tests Code is partly implemented in the Detection Code. The Filter test was a try what would
