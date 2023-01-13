@@ -211,10 +211,14 @@ trace_center_vector = np.subtract(trace_center, observer_position)
 
 # In the real image it is very simple to calculate this angle. This angle is the Angle between the
 # two orange lines in the plot. This is the important angle when calculating the "distortion" by perspective
+# both the elevation above ground and the flight direction cause perspective distortion.
+# This angle basically takes both values in consieration.
 tilted_elevation = angle_delta(zero_angle_vector, trace_center_vector)
 print(f'tilted_elevation: {tilted_elevation}')
 
 # distortion calculation (this actually corrects the visible trace)
+# This formula is the perspective distortion of an object that would pass directly overhead. 
+# It discribes how much the visual apperance changes if something is flying towards the observer.
 perspective_correction = trace_angle_delta / (0.5 * cos(radians(2 * tilted_elevation)) + 0.5)
 print(f'perspective correction: {perspective_correction}')
 
