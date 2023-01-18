@@ -9,7 +9,10 @@ There are two main scripts, one for the calibration and one for the actual satel
   - The calibration code was intendet to be convertet to c code and run as an windows executable
     but there are still some flaws in the code and some improvements to be made.
     Its purpose was so I would be able to quickly recalibrate the camera and to make it easier 
-    if you wanted to try different cameras with different lenses.
+    if you wanted to try different cameras with different lenses. The calibration calculates 
+    how the camera distortes the image and two values needed to transform
+    image coordinates to sky coordinates (horizontal). But you need to give it some inital data,
+    like some manually identified stars.
     
   - Detection Code is the main if you want to call it that way. It combines most of the things 
     I have done at my time on alomar, It is a prototype of what a running satellite detction on 
